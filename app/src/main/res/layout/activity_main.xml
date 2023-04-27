@@ -37,7 +37,7 @@
         android:id="@+id/analyticsButton"
         android:layout_width="326dp"
         android:layout_height="76dp"
-        android:text="START ANALYTICS SESSION"
+        android:text="ADD METADATA"
         app:backgroundTint="@android:color/holo_green_dark"
         app:layout_constraintBottom_toTopOf="@+id/validatedText"
         app:layout_constraintEnd_toEndOf="parent"

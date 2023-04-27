@@ -15,6 +15,7 @@ import com.naurt.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
 import kotlinx.serialization.json.put
 
@@ -132,8 +133,11 @@ class MainActivity : AppCompatActivity() {
                     NaurtValidationStatus.Valid -> {
                         naurtValidatedText.visibility = AdapterView.INVISIBLE
                     }
+                    NaurtValidationStatus.ValidNoDataTransfer -> {
+                        naurtValidatedText.visibility = AdapterView.INVISIBLE
+                    }
                     NaurtValidationStatus.Invalid -> {
-                        naurtValidatedText.text = "INVALID API KEY. GNSS PROVIDED" // If key is invalid GNSS will be passed through.
+                        naurtValidatedText.text = "INVALID API KEY. GNSS/FUSED PROVIDED" // If key is invalid GNSS will be passed through.
                     }
                     NaurtValidationStatus.NotYetValidated -> {}
                 }
@@ -147,10 +151,11 @@ class MainActivity : AppCompatActivity() {
 
         this.naurtAnalyticsButton.setOnClickListener{
 
-            if (naurt.getInAnalyticsSession()){
+            if (naurt.getMetadata() != null){
 
-                naurt.endAnalyticsSession()
-                naurtAnalyticsButton.text = "START ANALYTICS SESSION"
+                val nullMeta: JsonObject? = null
+                naurt.updateMetadata(nullMeta)
+                naurtAnalyticsButton.text = "ADD METADATA"
                 naurtAnalyticsButton.setBackgroundColor(Color.GREEN)
 
             } else{
@@ -159,11 +164,11 @@ class MainActivity : AppCompatActivity() {
                     put("example_metadata", "Naurt Example App!")
                 }
 
-                naurt.startAnalyticsSession(element)
+                naurt.updateMetadata(element)
 
 
 
-                naurtAnalyticsButton.text = "END ANALYTICS SESSION"
+                naurtAnalyticsButton.text = "REMOVE METADATA"
                 naurtAnalyticsButton.setBackgroundColor(Color.RED)
             }
         }

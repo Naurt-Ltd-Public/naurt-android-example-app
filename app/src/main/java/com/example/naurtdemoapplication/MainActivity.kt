@@ -1,7 +1,6 @@
 package com.example.naurtdemoapplication
 
 import android.Manifest
-import android.content.Context
 import android.content.pm.PackageManager
 import android.graphics.Color
 import android.os.Bundle
@@ -15,9 +14,7 @@ import com.naurt.*
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.buildJsonObject
-import kotlinx.serialization.json.put
+import org.json.JSONObject
 
 
 class MainActivity : AppCompatActivity() {
@@ -153,18 +150,18 @@ class MainActivity : AppCompatActivity() {
 
             if (naurt.getMetadata() != null){
 
-                val nullMeta: JsonObject? = null
+                val nullMeta: JSONObject? = null
                 naurt.updateMetadata(nullMeta)
                 naurtAnalyticsButton.text = "ADD METADATA"
                 naurtAnalyticsButton.setBackgroundColor(Color.GREEN)
 
             } else{
 
-                val element = buildJsonObject {
-                    put("example_metadata", "Naurt Example App!")
-                }
+                val jsonObject = JSONObject()
+                jsonObject.put("example_metadata", "Naurt Example App!")
 
-                naurt.updateMetadata(element)
+
+                naurt.updateMetadata(jsonObject)
 
 
 
